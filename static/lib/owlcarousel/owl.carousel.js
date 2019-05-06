@@ -406,7 +406,7 @@
 	}, {
 		filter: [ 'width', 'items', 'settings' ],
 		run: function(cache) {
-			cache.current = cache.current ? this.$stage.children().index(cache.current) : 0;
+			cache.current = cache.current ? this.$stage.children().home(cache.current) : 0;
 			cache.current = Math.max(this.minimum(), Math.min(this.maximum(), cache.current));
 			this.reset(cache.current);
 		}
@@ -1392,7 +1392,7 @@
 			this._mergers.splice(position, 0, content.find('[data-merge]').addBack('[data-merge]').attr('data-merge') * 1 || 1);
 		}
 
-		this._items[current] && this.reset(this._items[current].index());
+		this._items[current] && this.reset(this._items[current].home());
 
 		this.invalidate('items');
 
@@ -2041,7 +2041,7 @@
 			}, this),
 			'loaded.owl.lazy': $.proxy(function(e) {
 				if (e.namespace && this._core.settings.autoHeight
-					&& e.element.closest('.' + this._core.settings.itemClass).index() === this._core.current()) {
+					&& e.element.closest('.' + this._core.settings.itemClass).home() === this._core.current()) {
 					this.update();
 				}
 			}, this)
@@ -2390,9 +2390,9 @@
 		this._core.enter('playing');
 		this._core.trigger('play', null, 'video');
 
-		item = this._core.items(this._core.relative(item.index()));
+		item = this._core.items(this._core.relative(item.home()));
 
-		this._core.reset(item.index());
+		this._core.reset(item.home());
 
 		if (video.type === 'youtube') {
 			html = '<iframe width="' + width + '" height="' + height + '" src="//www.youtube.com/embed/' +
@@ -2992,7 +2992,7 @@
 
 		this._controls.$absolute.on('click', 'button', $.proxy(function(e) {
 			var index = $(e.target).parent().is(this._controls.$absolute)
-				? $(e.target).index() : $(e.target).parent().index();
+				? $(e.target).home() : $(e.target).parent().home();
 
 			e.preventDefault();
 
@@ -3292,7 +3292,7 @@
 		$(window).on('hashchange.owl.navigation', $.proxy(function(e) {
 			var hash = window.location.hash.substring(1),
 				items = this._core.$stage.children(),
-				position = this._hashes[hash] && items.index(this._hashes[hash]);
+				position = this._hashes[hash] && items.home(this._hashes[hash]);
 
 			if (position === undefined || position === this._core.current()) {
 				return;
